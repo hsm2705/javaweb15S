@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.javaweb15S.dao.MemberDAO">
+
+	<select id="getMemberIdCheck" resultType="com.spring.javaweb15S.vo.MemberVO">
+		select * from member2 where mid = #{mid};
+	</select>  
+  
+	<select id="getMemberNickCheck" resultType="com.spring.javaweb15S.vo.MemberVO">
+		select * from member2 where nickName = #{nickName};
+	</select>
+	
+	<select id="totRecCnt" resultType="int">
+    	select count(*) from member2 <if test="mid != ''"> where mid like concat('%',#{mid},'%') </if>;
+  	</select>
+	
+	
+	
+	<insert id="setMemberJoinOk">
+	INSERT INTO member2 (idx, mid, pwd, nickName, name, gender, birthday, tel, address, email, content, userDel, level, startDate, lastDate) 
+	VALUES (DEFAULT, #{vo.mid}, #{vo.pwd}, #{vo.nickName}, #{vo.name},
+    #{vo.gender}, #{vo.birthday}, #{vo.tel}, #{vo.address},
+    #{vo.email}, #{vo.content}, DEFAULT, DEFAULT, DEFAULT, DEFAULT);
+	</insert>
+	
+<!-- 	insert into member values (default,#{vo.mid},#{vo.pwd},#{vo.nickName},#{vo.name},#{vo.gender},#{vo.birthday},#{vo.tel},#{vo.address},#{vo.email},#{vo.content},default,default,default,default,default); 	
+ -->
+ </mapper>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.javaweb15S.dao.NewsDAO">
+
+  <select id="totRecCnt" resultType="int">
+    select count(*) from news;
+  </select>
+  
+  <select id="getNewsList" resultType="com.spring.javaweb15S.vo.NewsVO">
+  	select * from news order by idx desc limit #{startIndexNo},#{pageSize};
+  </select>
+  
+  <select id="getNewsContent" resultType="com.spring.javaweb15S.vo.NewsVO">
+  	select * from news where idx = #{idx};
+  </select>
+  
+  <select id="getPrevNext" resultType="com.spring.javaweb15S.vo.NewsVO">
+    select idx,title from news where idx in (
+		  (select idx from news where <![CDATA[idx < #{idx}]]> order by idx desc limit 1),
+		  (select idx from news where <![CDATA[idx > #{idx}]]> limit 1));
+  </select>
+  
+  <select id="totRecCntSearch" resultType="int">
+    select count(*) from news where ${search} like concat('%',#{searchString},'%');
+  </select>
+  
+  <select id="getNewsGoodCheck" resultType="com.spring.javaweb15S.vo.NewsVO">
+  	select * from good where partIdx=#{partIdx} and part=#{part} and mid=#{mid};
+  </select>
+  
+
+
+  
+  
+  <insert id="setNewsInput">
+	insert into news value (default,#{vo.mid},#{vo.nickName},#{vo.title},#{vo.email},#{vo.content},default,default,default,default);
+  </insert>
+  
+  <insert id="setGoodDBInput">
+    insert into good values (default,#{goodVo.part},#{goodVo.partIdx},#{goodVo.mid});
+  </insert>
+
+
+
+
+  <update id="setNewsReadNum">
+    update news set readNum = readNum + 1 where idx = #{idx};
+  </update>
+  
+  <update id="setNewsGoodPlus">
+  	update news set good = good + 1 where idx = #{idx};
+  </update>
+  
+  <update id="setGoodPlusMinus">
+  	update news set good = good + #{goodCnt} where idx = #{idx};
+  </update>
+  
+  <update id="setGoodUpdate">
+  	update news set good = good + #{item}  where idx = #{idx};
+  </update>
+  
+  <update id="setNewsUpdate">
+    update news set title=#{vo.title},email=#{vo.email},content=#{vo.content},openSw=#{vo.openSw},wDate=now() where idx = #{vo.idx};
+  </update>
+  
+  
+  
+  
+  <delete id="setGoodDBDelete">
+    delete from good where idx = #{idx};
+  </delete>
+  
+  <delete id="setNewsDelete">
+    delete from news where idx = #{idx};
+  </delete>
+  
+
+
+
+
+</mapper>
