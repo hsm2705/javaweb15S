@@ -32,7 +32,11 @@ public class Test() {
 <table border>
   <tr>
     <td>관계</td><td>성명</td><td>나이</td>
+  </tr>
+  <tr>
     <td>아버지</td><td>홍장군</td><td>58</td>
+  </tr>
+  <tr>
     <td>어머니</td><td>김말숙</td><td>55</td>
   </tr>
 
